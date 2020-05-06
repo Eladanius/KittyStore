@@ -1,30 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using KittyStore.Mongo;
 
-namespace WebApplication1.Controllers
+namespace KittyStore.Controllers
 {
     public class HomeController : Controller
     {
+        KittyCardController kittyCardController = new KittyCardController();
         public ActionResult Home()
         {
+            ViewBag.kittiesData = Service.GetAllKittiesData();
             return View();
         }
 
-        public ActionResult About()
+        [HttpGet]
+        public void KittyCard(string id)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            if (!string.IsNullOrEmpty(id))
+                kittyCardController.KittyCard(id);
         }
     }
 }

@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "KittyCard";
+    var kittyData = KittyStore.Mongo.Service.GetAllKittiesData(Url.RequestContext.RouteData.Values["id"].ToString());//ViewBag.kittyData as KittyStore.Models.imagesContentAdapter;
+}
+@Styles.Render("~/Content/kitty-card.css")
+
+<div class="kitty-card row m-0">
+    <div class="col m-0" style="width:100%;">
+        <div>
+            <img class="kitty-pic" src=@kittyData[0].Url style="width:100%" />
+        </div>
+    </div>
+    <div class="col m-0 kitty-review">
+        <h4>Name: @kittyData[0].Name</h4>
+        <ul>
+            <li><h5>Age: </h5>@kittyData[0].Age</li>
+            <li><h5>Size:  </h5>@kittyData[0].Size</li>
+            <li><h5>Weight:  </h5>@kittyData[0].Weight</li>
+            <li><h5>Summary:  </h5>@kittyData[0].Summary</li>
+        </ul>
+        <input type="button" class="col-3 btn btn-info m-1" value="Add to basket" />
+        <input type="button" class="col-3 btn btn-info m-1" onclick="window.location.href = '/Home/Home';" value="Go back" />
+
+    </div>
+</div>

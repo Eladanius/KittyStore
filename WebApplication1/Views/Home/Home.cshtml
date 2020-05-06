@@ -3,68 +3,70 @@
     var imgPath = "/Content/img/";
     var files = Directory.GetFiles("D:\\Projects\\C#\\KittyStore\\WebApplication1\\Content\\img");
     var slides = Directory.GetFiles("D:\\Projects\\C#\\KittyStore\\WebApplication1\\Content\\img\\slides");
-
+    var kittiesData = ViewBag.kittiesData as List<KittyStore.Models.imagesContentAdapter>;
 }
 
-<div class="container align-content-center" style="width:40%">
-    <div id="myCarousel" class="carousel slide align-content-center" data-ride="carousel">
-        <!-- Indicators -->
-        @{
-            if (slides.Count() != 0)
-            {
-                <ol class="carousel-indicators">
-                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+<div id="myCarousel" class="row m-0 carousel slide align-content-center" data-ride="carousel">
+    <!-- Indicators -->
+    @{
+        if (slides.Count() != 0)
+        {
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 
-                    @for (var i = 1; i < slides.Count(); i++)
-                    {
-                        <li data-target="#myCarousel" data-slide-to=@i></li>
-                    }
-                </ol>
+                @for (var i = 1; i < slides.Count(); i++)
+                {
+                    <li data-target="#myCarousel" data-slide-to=@i></li>
+                }
+            </ol>
 
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src=@(imgPath + "/slides/" + Path.GetFileName(slides[0])) style="width:100%;">
-                    </div>
-                    @for (var i = 1; i < slides.Count(); i++)
-                    {
-                        <div class="carousel-item">
-                            <img src=@(imgPath + "/slides/" + Path.GetFileName(slides[i])) style="width:100%;">
-                        </div>
-                    }
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src=@(imgPath + "/slides/" + Path.GetFileName(slides[0])) style="width:100%">
                 </div>
-            }
+                @for (var i = 1; i < slides.Count(); i++)
+                {
+                    <div class="carousel-item">
+                        <img src=@(imgPath + "/slides/" + Path.GetFileName(slides[i])) style="width:100%">
+                    </div>
+                }
+            </div>
         }
+    }
 
-        <!-- Left and right controls -->
-        <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </a>
-        <a class="carousel-control-next" href="#myCarousel" data-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </a>
-    </div>
+    <!-- Left and right controls -->
+    <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </a>
 </div>
 
-<div class="row best-kitties text-center">
-    <div class="col m-3">
+<div class="row kitties-body text-center">
+    <div class="col m-3" style="background-color:#73B6C7; border-radius:2%">
         <h4>Best kitties</h4>
         @{
             var startFlag = false;
-            for (var i = 0; i < files.Length; i++)
+            for (var i = 0; i < kittiesData.Capacity; i++)
             {
                 if (!startFlag)
                 {
                     @Html.Raw("<div class=row>");
                     <div class="col m-1">
-                        <img src=@(imgPath + Path.GetFileName(files[i]))>
+                        <a href="~/KittyCard/KittyCard/@(kittiesData[i].Id)">
+                            <img src=@kittiesData[i].Url>
+                        </a>
                     </div>
                     startFlag = true;
                     continue;
                 }
                 <div class="col m-1">
-                    <img src=@(imgPath + Path.GetFileName(files[i]))>
+                    <a href="~/KittyCard/KittyCard/@(kittiesData[i].Id)">
+                        <img src=@kittiesData[i].Url>
+                    </a>
                 </div>
-                if ((startFlag && (i+1) % 3 == 0))
+                if ((startFlag && (i + 1) % 3 == 0))
                 {
                     @Html.Raw("</div>");
                     startFlag = false;
@@ -73,23 +75,27 @@
             }
         }
     </div>
-    <div class="col m-3">
+    <div class="col m-3" style="background-color:#73B6C7; border-radius:2%">
         <h4>Best sales</h4>
         @{
             startFlag = false;
-            for (var i = 0; i < files.Length; i++)
+            for (var i = 0; i < kittiesData.Capacity; i++)
             {
                 if (!startFlag)
                 {
                     @Html.Raw("<div class=row>");
                     <div class="col m-1">
-                        <img src=@(imgPath + Path.GetFileName(files[i]))>
+                        <a href="~/KittyCard/KittyCard/@(kittiesData[i].Id)">
+                            <img src=@kittiesData[i].Url>
+                        </a>
                     </div>
                     startFlag = true;
                     continue;
                 }
                 <div class="col m-1">
-                    <img src=@(imgPath + Path.GetFileName(files[i]))>
+                    <a href="~/KittyCard/KittyCard/@(kittiesData[i].Id)">
+                        <img src=@kittiesData[i].Url>
+                    </a>
                 </div>
                 if ((startFlag && (i + 1) % 3 == 0))
                 {
